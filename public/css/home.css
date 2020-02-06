@@ -1,0 +1,33 @@
+@import 'https://fonts.googleapis.com/css?family=Nova+Mono|Eczar';
+#body {
+  background-color: silver;
+  color: white;
+}
+
+
+#div2{
+    float: right;
+    margin-right: 30%;
+    margin-top:5%
+}
+
+#time {
+  font-family: 'Nova Mono', monospace;
+  font-size: 4vw;
+  float: left;
+  text-shadow: 0px 0px 20px;
+  margin-left: 10%;
+  margin-top: 10%
+}
+
+/* #date {
+  font-family: 'Eczar', serif;
+  font-size: 10vmin;
+  text-align: center;
+  text-shadow: 0px 0px 20px blue;
+} */
+
+/* @media only screen and (max-width: 500px){
+  #time {font-size: 2em;}
+  #date {font-size: 1em;}
+} */

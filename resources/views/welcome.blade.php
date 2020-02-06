@@ -1,95 +1,140 @@
-<!doctype html>
-<html lang="{{ app()->getLocale() }}">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 
+Copyright ValyTGV
+-->
+<html>
 
-        <title>Laravel</title>
+<head>
+    <title>Time Tracker App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Add online Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{url('css/home.css')}}">
+    <script src="{{url('js/home.js')}}"></script>
+</head>
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Raleway', sans-serif;
-                font-weight: 100;
-                height: 100vh;
-                margin: 0;
-            }
+<body id="body">
 
-            .full-height {
-                height: 100vh;
-            }
 
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
+    @foreach($students as $student)
 
-            .position-ref {
-                position: relative;
-            }
+    @endforeach
+    <div class="container">
 
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
 
-            .content {
-                text-align: center;
-            }
+        <select name="names">
+            @foreach($students as $student)
+            <option value=""><button class="btn btn-primary" onclick="openForm()">{{$student->name}}</button></option>
+            @endforeach
+        </select>
+        <br><br>
 
-            .title {
-                font-size: 84px;
-            }
 
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 12px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
 
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-                        <a href="{{ route('register') }}">Register</a>
-                    @endauth
-                </div>
-            @endif
+        <form id="message" action="{{url('stores',$student->id)}}" method="post">
+            <input type="hidden" name="_token" id="_token" value="{{ csrf_token() }}">
+            <a onclick="clockin()" class="btn btn-primary" id="clin" >Clock in</a>
+            <p id="ci" name="clock_in"></p>
+            <a onclick="breakout()" class="btn btn-primary" id="brout" >Break Out</a>
+            <p id="bo" name="break_out"></p>
+            <a onclick="breakin()" class="btn btn-primary" id="brin" disabled>Break In</a>
+            <p id="bi" name="break_end"></p>
+            <button onclick="clockout()" class="btn btn-primary" type="submit" id="clout" disabled>Clock Out</button>
+            <p id="co" name="clock_out"></p>
+        </form>
 
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
 
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
-            </div>
-        </div>
-    </body>
+
+
+    </div>
+
+    <div id="div1">
+        <h1 id="time"></h1>
+        <!-- <p id="date"></p> -->
+    </div>
+    <div>
+        <h1>Total Time Worked:</h1>
+        <h1>Hour Left Before:</h1>
+        <h1>Total Breaks:</h1>
+    </div>
+
+
+
+
+
+    </div>
+
+
+
+
+
+    <!-- Add online jQuery -->
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"
+        integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous">
+    </script>
+    <script>
+   
+    const d = new Date()
+
+    function openForm(){
+
+ document.getElementById("clin").disabled = false;
+
+    }
+
+    function clockin() {
+        const d = new Date()
+        var h = d.getHours();
+        var m = d.getMinutes();
+        document.getElementById("ci").innerHTML = h + ":" + m;
+        document.getElementById("brout").disabled = false;
+
+        document.getElementById("clout").disabled = false;
+
+        
+    }
+
+    function breakin() {
+        const d = new Date()
+        var h = d.getHours();
+        var m = d.getMinutes();
+        document.getElementById("bi").innerHTML = h + ":" + m;
+        document.getElementById("brin").disabled = true;
+        document.getElementById("brout").disabled = false;
+
+    }
+
+    function breakout() {
+        const d = new Date()
+        var h = d.getHours();
+        var m = d.getMinutes();
+        document.getElementById("bo").innerHTML = h + ":" + m;
+        document.getElementById("brout").disabled = false;
+        
+       
+    }
+
+    function clockout() {
+        const d = new Date()
+        var h = d.getHours();
+        var m = d.getMinutes();
+        document.getElementById("co").innerHTML = h + ":" + m;
+    }
+    </script>
+    <script>
+    $(document).on("click", ".save", function() {
+        $.ajax({
+            type: "post",
+            url: '/Users/message',
+            data: $(".message").serialize(),
+            success: function(store) {
+
+            },
+            error: function() {}
+        });
+    });
+    </script>
+</body>
+
 </html>
